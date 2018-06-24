@@ -15,6 +15,7 @@ definitions:
         type: integer
       email:
         type: string
+        format: email
       text:
         type: string
   ticket:
@@ -34,6 +35,7 @@ definitions:
         type: string
       email:
         type: string
+        format: email
       status:
         type: string
       comments:
@@ -128,7 +130,7 @@ paths:
         500:
           description: InternalServerError
 
-  /commets:
+  /comments:
     post:
       summary: Create comment to ticket
       tags:

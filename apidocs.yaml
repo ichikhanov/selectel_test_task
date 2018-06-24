@@ -1,0 +1,148 @@
+info:
+  description: Selectel test task
+  title: TicketsApi
+  version: 0.0.1
+definitions:
+  comment:
+    type: object
+    properties:
+      id:
+        type: integer
+      created_at:
+        type: string
+        format: date-time
+      ticket_id:
+        type: integer
+      email:
+        type: string
+      text:
+        type: string
+  ticket:
+    type: object
+    properties:
+      id:
+        type: integer
+      created_at:
+        type: string
+        format: date-time
+      updated_at:
+        type: string
+        format: date-time
+      theme:
+        type: string
+      text:
+        type: string
+      email:
+        type: string
+      status:
+        type: string
+      comments:
+        type: array
+        items:
+          $ref: '#/definitions/comment'
+  ticket_post_schema:
+    type: object
+    properties:
+      theme:
+        type: string
+      text:
+        type: string
+      email:
+        type: string
+      status:
+        type: string
+        enum: ['open']
+  ticket_patch_schema:
+    type: object
+    properties:
+      status:
+        type: string
+        enum: ['open', 'responded', 'closed', 'waiting_for_response']
+  comment_post_schema:
+    type: object
+    properties:
+      ticket_id:
+        type: integer
+      email:
+        type: string
+      text:
+        type: string
+paths:
+  /tickets/{ticket_id}:
+    get:
+      summary: Get ticked by id with related comments
+      tags:
+        - Ticket's methods
+      parameters:
+        - in: path
+          name: ticket_id
+          type: integer
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/ticket'
+        400:
+          description: BadRequest
+        404:
+          description: NotFound
+        500:
+          description: InternalServerError
+    patch:
+      summary: Patch ticket status
+      tags:
+        - Ticket's methods
+      parameters:
+        - in: body
+          name: body
+          schema:
+            $ref: '#/definitions/ticket_patch_schema'
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/ticket'
+        400:
+          description: BadRequest
+        404:
+          description: NotFound
+        500:
+          description: InternalServerError
+  /tickets:
+    post:
+      summary: Create ticket
+      tags:
+        - Ticket's methods
+      parameters:
+        - in: body
+          name: body
+          schema:
+            $ref: '#/definitions/ticket_post_schema'
+      responses:
+        201:
+          description: CREATED
+          schema:
+            $ref: '#/definitions/ticket'
+        400:
+          description: BadRequest
+        500:
+          description: InternalServerError
+
+  /commets:
+    post:
+      summary: Create comment to ticket
+      tags:
+        - Comment's methods
+      parameters:
+        - in: body
+          name: body
+          schema:
+            $ref: '#/definitions/comment_post_schema'
+      responses:
+        201:
+          description: CREATED
+          schema:
+            $ref: '#/definitions/comment'
+
+
+

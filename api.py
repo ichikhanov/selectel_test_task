@@ -56,7 +56,7 @@ class API(object):
                 raise ValidationException(
                     "Mailformed status, allowed: {0}".format(["responsed", "closed"])
                 )
-        elif status == "responsed":
+        elif origin_status == "responsed":
             if status not in ["waiting_for_response", "closed"]:
                 raise ValidationException(
                     "Mailformed status, allowed: {0}".format(
